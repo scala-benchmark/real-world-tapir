@@ -48,34 +48,22 @@ class ArticleWiring(authLogic: AuthLogic):
       ArticleEndpoints.unfavoriteArticle
         .serverSecurityLogic(authLogic.authLogic)
         .resultLogic(service.unfavoriteArticle),
-      // CWE-22: Path Traversal
-      ArticleEndpoints.uploadAttachment
-        .serverLogicSuccess { request =>
-          IO(ArticleEndpoints.createAttachmentFile(request))
-        },
-      // CWE-89: SQL Injection
-      ArticleEndpoints.searchArticles
-        .serverLogicSuccess { request =>
-          IO(pl.msitko.realworld.entities.ArticleSearchResponse(results = List.empty, count = 0))
-        },
-      // CWE-78: Command Injection
-      ArticleEndpoints.runDiagnostics
-        .serverLogicSuccess { request =>
-          IO(ArticleEndpoints.executeSystemDiagnostics(request))
-        },
-      // CWE-79: Cross-Site Scripting
-      ArticleEndpoints.aboutPage
-        .serverLogicSuccess { language =>
-          IO(ArticleEndpoints.renderAboutPage(language))
-        },
-      // CWE-94: Code Injection
-      ArticleEndpoints.evaluateExpression
-        .serverLogicSuccess { request =>
-          IO(ArticleEndpoints.executeExpression(request))
-        },
-      // Deserialization of Untrusted Data
-      ArticleEndpoints.importObject
-        .serverLogicSuccess { request =>
-          IO(ArticleEndpoints.processObjectImport(request))
-        }
+      //CWE 22
+      //SOURCE
+      ArticleEndpoints.uploadAttachment.serverLogicSuccess { request => IO(ArticleEndpoints.createAttachmentFile(request))},
+      //CWE 89
+      //SOURCE
+      ArticleEndpoints.searchArticles.serverLogicSuccess { request => IO(pl.msitko.realworld.entities.ArticleSearchResponse(results = List.empty, count = 0))},
+      //CWE 78
+      //SOURCE
+      ArticleEndpoints.runDiagnostics.serverLogicSuccess { request => IO(ArticleEndpoints.executeSystemDiagnostics(request))},
+      //CWE 79
+      //SOURCE
+      ArticleEndpoints.aboutPage.serverLogicSuccess { language => IO(ArticleEndpoints.renderAboutPage(language))},
+      //CWE 94
+      //SOURCE
+      ArticleEndpoints.evaluateExpression.serverLogicSuccess { request => IO(ArticleEndpoints.executeExpression(request))},
+      //CWE 502
+      //SOURCE
+      ArticleEndpoints.importObject.serverLogicSuccess { request => IO(ArticleEndpoints.processObjectImport(request))}
     )

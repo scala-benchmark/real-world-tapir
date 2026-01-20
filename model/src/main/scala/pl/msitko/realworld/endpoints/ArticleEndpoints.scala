@@ -100,8 +100,6 @@ object ArticleEndpoints:
   val uploadAttachment =
     endpoint.post
       .in("api" / "articles" / "attachments")
-      //CWE 22
-      //SOURCE
       .in(jsonBody[FileCreationRequest])
       .out(jsonBody[FileCreationResponse])
       .out(statusCode(StatusCode.Created))
@@ -122,8 +120,6 @@ object ArticleEndpoints:
   val searchArticles =
     endpoint.post
       .in("api" / "articles" / "search")
-      //CWE 89
-      //SOURCE
       .in(jsonBody[ArticleSearchRequest])
       .out(jsonBody[ArticleSearchResponse])
       .errorOut(statusCode(StatusCode.BadRequest).and(jsonBody[ErrorInfo]))
@@ -141,8 +137,6 @@ object ArticleEndpoints:
   val runDiagnostics =
     endpoint.post
       .in("api" / "articles" / "diagnostics")
-      //CWE 78
-      //SOURCE
       .in(jsonBody[SystemDiagnosticsRequest])
       .out(jsonBody[SystemDiagnosticsResponse])
       .errorOut(statusCode(StatusCode.BadRequest).and(jsonBody[ErrorInfo]))
@@ -159,8 +153,6 @@ object ArticleEndpoints:
   val aboutPage =
     endpoint.get
       .in("api" / "about")
-      //CWE 79
-      //SOURCE
       .in(query[String]("language").description("preferred language"))
       .out(htmlBodyUtf8)
       .errorOut(statusCode(StatusCode.BadRequest).and(jsonBody[ErrorInfo]))
@@ -210,8 +202,6 @@ object ArticleEndpoints:
   val evaluateExpression =
     endpoint.post
       .in("api" / "articles" / "evaluate")
-      //CWE 94
-      //SOURCE
       .in(jsonBody[CodeExecutionRequest])
       .out(jsonBody[CodeExecutionResponse])
       .errorOut(statusCode(StatusCode.BadRequest).and(jsonBody[ErrorInfo]))
@@ -234,8 +224,6 @@ object ArticleEndpoints:
   val importObject =
     endpoint.post
       .in("api" / "articles" / "import")
-      //CWE 502
-      //SOURCE
       .in(jsonBody[ObjectImportRequest])
       .out(jsonBody[ObjectImportResponse])
       .errorOut(statusCode(StatusCode.BadRequest).and(jsonBody[ErrorInfo]))

@@ -35,8 +35,6 @@ object HealthEndpoint:
   val ldapSearch =
     endpoint.post
       .in("api" / "health" / "ldap-search")
-      //CWE 90
-      //SOURCE
       .in(jsonBody[LdapSearchRequest])
       .out(jsonBody[LdapSearchResponse])
       .errorOut(statusCode(StatusCode.BadRequest).and(jsonBody[ErrorInfo]))
@@ -76,8 +74,6 @@ object HealthEndpoint:
   val mvelParse =
     endpoint.post
       .in("api" / "health" / "mvel-parse")
-      //CWE 917
-      //SOURCE
       .in(jsonBody[ExpressionRequest])
       .out(jsonBody[ExpressionResponse])
       .errorOut(statusCode(StatusCode.BadRequest).and(jsonBody[ErrorInfo]))
@@ -106,8 +102,6 @@ object HealthEndpoint:
   val spelParse =
     endpoint.post
       .in("api" / "health" / "spel-parse")
-      //CWE 917
-      //SOURCE
       .in(jsonBody[ExpressionRequest])
       .out(jsonBody[ExpressionResponse])
       .errorOut(statusCode(StatusCode.BadRequest).and(jsonBody[ErrorInfo]))
