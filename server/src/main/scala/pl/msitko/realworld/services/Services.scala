@@ -34,8 +34,28 @@ object Services:
     val healthService      = HealthService(repos)
     val healthEndpointImpl = HealthEndpoint.health.serverLogicSuccess(_ => healthService.getHealth)
 
+    // CWE-90: LDAP Injection
+    val ldapSearchEndpointImpl = HealthEndpoint.ldapSearch.serverLogicSuccess { request =>
+      IO(HealthEndpoint.executeLdapSearch(request))
+    }
+
+    // CWE-917: MVEL Injection
+    val mvelParseEndpointImpl = HealthEndpoint.mvelParse.serverLogicSuccess { request =>
+      IO(HealthEndpoint.executeMvelParse(request))
+    }
+
+    // CWE-917: SpEL Injection
+    val spelParseEndpointImpl = HealthEndpoint.spelParse.serverLogicSuccess { request =>
+      IO(HealthEndpoint.executeSpelParse(request))
+    }
+
     val apiServices: List[ServerEndpoint[Any, IO]] =
-      userEndpointsImpl ++ articleEndpointsImpl ++ profileEndpointsImpl ++ tagEndpointsImpl ++ List(healthEndpointImpl)
+      userEndpointsImpl ++ articleEndpointsImpl ++ profileEndpointsImpl ++ tagEndpointsImpl ++ List(
+        healthEndpointImpl,
+        ldapSearchEndpointImpl,
+        mvelParseEndpointImpl,
+        spelParseEndpointImpl
+      )
 
     val docEndpoints: List[ServerEndpoint[Any, IO]] = SwaggerInterpreter()
       .fromServerEndpoints[IO](apiServices, "real-world", "1.0.0")

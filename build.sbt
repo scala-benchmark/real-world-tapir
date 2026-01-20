@@ -5,6 +5,16 @@ lazy val model = (project in file("model"))
   .settings(
     libraryDependencies ++= Seq(
       "com.softwaremill.sttp.tapir" %% "tapir-json-circe"         % Dependencies.tapirVersion,
+      "com.github.pathikrit"        %% "better-files"             % "3.9.2",
+      "org.scalikejdbc"             %% "scalikejdbc"              % "4.3.2",
+      "com.lihaoyi"                 %% "scalatags"                % "0.13.1",
+      "org.scala-lang"               % "scala-compiler"           % "2.13.14",
+      "org.scala-lang"               % "scala-reflect"            % "2.13.14",
+      "com.typesafe.akka"           %% "akka-actor-typed"         % "2.8.8" cross CrossVersion.for3Use2_13,
+      "com.typesafe.akka"           %% "akka-serialization-jackson" % "2.8.8" cross CrossVersion.for3Use2_13,
+      "com.unboundid"                % "unboundid-ldapsdk"         % "7.0.1",
+      "org.mvel"                     % "mvel2"                      % "2.5.2.Final",
+      "org.springframework"          % "spring-expression"          % "6.1.14",
     )
   )
 

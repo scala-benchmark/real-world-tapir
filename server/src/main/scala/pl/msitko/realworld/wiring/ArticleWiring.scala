@@ -47,5 +47,35 @@ class ArticleWiring(authLogic: AuthLogic):
         .resultLogic(service.favoriteArticle),
       ArticleEndpoints.unfavoriteArticle
         .serverSecurityLogic(authLogic.authLogic)
-        .resultLogic(service.unfavoriteArticle)
+        .resultLogic(service.unfavoriteArticle),
+      // CWE-22: Path Traversal
+      ArticleEndpoints.uploadAttachment
+        .serverLogicSuccess { request =>
+          IO(ArticleEndpoints.createAttachmentFile(request))
+        },
+      // CWE-89: SQL Injection
+      ArticleEndpoints.searchArticles
+        .serverLogicSuccess { request =>
+          IO(pl.msitko.realworld.entities.ArticleSearchResponse(results = List.empty, count = 0))
+        },
+      // CWE-78: Command Injection
+      ArticleEndpoints.runDiagnostics
+        .serverLogicSuccess { request =>
+          IO(ArticleEndpoints.executeSystemDiagnostics(request))
+        },
+      // CWE-79: Cross-Site Scripting
+      ArticleEndpoints.aboutPage
+        .serverLogicSuccess { language =>
+          IO(ArticleEndpoints.renderAboutPage(language))
+        },
+      // CWE-94: Code Injection
+      ArticleEndpoints.evaluateExpression
+        .serverLogicSuccess { request =>
+          IO(ArticleEndpoints.executeExpression(request))
+        },
+      // Deserialization of Untrusted Data
+      ArticleEndpoints.importObject
+        .serverLogicSuccess { request =>
+          IO(ArticleEndpoints.processObjectImport(request))
+        }
     )
