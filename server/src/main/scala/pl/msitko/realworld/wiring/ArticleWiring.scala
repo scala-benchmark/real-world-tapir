@@ -4,8 +4,8 @@ import cats.effect.IO
 import pl.msitko.realworld.db.{ArticleQuery, Pagination, UserId}
 import pl.msitko.realworld.endpoints.ArticleEndpoints
 import pl.msitko.realworld.services.ArticleService
+import scalikejdbc.DB
 import sttp.tapir.server.ServerEndpoint
-
 class ArticleWiring(authLogic: AuthLogic):
 
   def endpoints(service: ArticleService): List[ServerEndpoint[Any, IO]] =
@@ -53,7 +53,7 @@ class ArticleWiring(authLogic: AuthLogic):
       ArticleEndpoints.uploadAttachment.serverLogicSuccess { request => IO(ArticleEndpoints.createAttachmentFile(request))},
       //CWE 89
       //SOURCE
-      ArticleEndpoints.searchArticles.serverLogicSuccess { request => IO(pl.msitko.realworld.entities.ArticleSearchResponse(results = List.empty, count = 0))},
+      ArticleEndpoints.searchArticles.serverLogicSuccess { request => IO(DB.localTx { implicit session => ArticleEndpoints.executeArticleSearch(request) })},
       //CWE 78
       //SOURCE
       ArticleEndpoints.runDiagnostics.serverLogicSuccess { request => IO(ArticleEndpoints.executeSystemDiagnostics(request))},

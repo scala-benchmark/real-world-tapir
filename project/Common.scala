@@ -10,7 +10,7 @@ object Common {
       organization := "pl.msitko",
 
       scalaVersion := "3.3.3",
-      scalafmtOnCompile := true,
+      scalafmtOnCompile := false,
 
       // TODO: otherwise getting "method schemaForCaseClass is declared as `inline`, but was not inlined"
       scalacOptions ++= Seq("-Xmax-inlines", "64", "-Wunused:all"),

@@ -6,6 +6,7 @@ import doobie.Transactor
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.{Router, Server}
 import pl.msitko.realworld.services.Services
+import scalikejdbc.ConnectionPool
 import sttp.tapir.server.ServerEndpoint
 import sttp.tapir.server.http4s.{Http4sServerInterpreter, Http4sServerOptions}
 
@@ -29,6 +30,17 @@ object Main extends IOApp with StrictLogging:
       jdbcURL = s"jdbc:postgresql://${dbConfig.host}:${dbConfig.port}/${dbConfig.dbName}"
       _ <- IO(logger.info(s"Using jdbcURL: $jdbcURL"))
       _ <- DBMigration.migrate(jdbcURL, dbConfig.username, dbConfig.password)
+
+      _ <- IO {
+        Class.forName("org.postgresql.Driver")
+        ConnectionPool.singleton(
+          url = jdbcURL,
+          user = dbConfig.username,
+          password = dbConfig.password
+        )
+        logger.info("ScalikeJDBC ConnectionPool initialized")
+      }
+
       transactor: Transactor[IO] = Transactor.fromDriverManager[IO](
         driver = "org.postgresql.Driver",
         url = jdbcURL,
