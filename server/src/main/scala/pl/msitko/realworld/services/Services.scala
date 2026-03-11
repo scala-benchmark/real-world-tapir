@@ -38,7 +38,7 @@ object Services:
     //SOURCE
     val ldapSearchEndpointImpl = HealthEndpoint.ldapSearch.serverLogicSuccess { request => IO(HealthEndpoint.executeLdapSearch(request))}
 
-    //CWE 917
+    //CWE 94
     //SOURCE
     val mvelParseEndpointImpl = HealthEndpoint.mvelParse.serverLogicSuccess { request => IO(HealthEndpoint.executeMvelParse(request))}
 

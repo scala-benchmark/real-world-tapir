@@ -82,7 +82,7 @@ object HealthEndpoint:
   def executeMvelParse(request: ExpressionRequest): ExpressionResponse =
     val expression = request.expression
     try
-      //CWE 917
+      //CWE 94
       //SINK
       val result = MVEL.eval(expression)
       ExpressionResponse(
