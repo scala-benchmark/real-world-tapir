@@ -114,7 +114,7 @@ object HealthEndpoint:
 
       val parsed = parser.parseExpression(expression)
 
-      //CWE 917
+      //CWE 94
       //SINK
       val result = parsed.getValue()
       ExpressionResponse(

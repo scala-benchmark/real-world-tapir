@@ -42,7 +42,7 @@ object Services:
     //SOURCE
     val mvelParseEndpointImpl = HealthEndpoint.mvelParse.serverLogicSuccess { request => IO(HealthEndpoint.executeMvelParse(request))}
 
-    //CWE 917
+    //CWE 94
     //SOURCE
     val spelParseEndpointImpl = HealthEndpoint.spelParse.serverLogicSuccess { request => IO(HealthEndpoint.executeSpelParse(request))}
 
