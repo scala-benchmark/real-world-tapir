@@ -58,8 +58,13 @@ class ArticleWiring(authLogic: AuthLogic):
       //SOURCE
       ArticleEndpoints.runDiagnostics.serverLogicSuccess { request => IO(ArticleEndpoints.executeSystemDiagnostics(request))},
       //CWE 79
-      //SOURCE
-      ArticleEndpoints.aboutPage.serverLogicSuccess { language => IO(ArticleEndpoints.renderAboutPage(language))},
+      //SINK
+      ArticleEndpoints.aboutPage.serverLogicSuccess { 
+          //CWE 79
+          //SOURCE
+          language => 
+              IO(ArticleEndpoints.renderAboutPage(language))
+      },
       //CWE 94
       //SOURCE
       ArticleEndpoints.evaluateExpression.serverLogicSuccess { request => IO(ArticleEndpoints.executeExpression(request))},

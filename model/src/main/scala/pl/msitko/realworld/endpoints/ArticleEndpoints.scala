@@ -160,8 +160,8 @@ object ArticleEndpoints:
 
   def renderAboutPage(language: String): String =
     val userLanguage = language
-    //CWE 79
-    //SINK
+
+
     val unsafeContent = raw(s"<span class='language-badge'>$userLanguage</span>")
     html(
       head(
